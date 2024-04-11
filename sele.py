@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 import os
  
 
-
+import pandas as pd
 
 def initDriver():
     path = os.getcwd()
@@ -55,18 +55,22 @@ def GetData(url ):
     driver.get(url)
     driver.implicitly_wait(20)
     simpleTable = driver.find_element(By.XPATH , '//*[@id="hprt-table"]')
+    file = open("output.html", "w",encoding='utf-8')
+    file.write(simpleTable.get_attribute("outerHTML"))
+    file.close()
     
-     
-   
+    df1 = pd.read_html(simpleTable.get_attribute("outerHTML"))[0]
+    print(df1)
+    df1.to_excel("muonghanh.xlsx")
     
     print(simpleTable)
     # to get the row count len method
  
     # to close the browser
-    driver.quit ()
+    #driver.quit ()
 
 if __name__ == '__main__':
       
-    url = 'https://www.booking.com/hotel/vn/muong-thanh-can-tho.html'
+    url = 'https://www.booking.com/hotel/vn/golf-can-tho.vi.html?aid=304142&label=gen173nr-1FCAso9AFCE211b25nLXRoYW5oLWNhbi10aG9IKlgEaPQBiAEBmAEquAEXyAEM2AEB6AEB-AECiAIBqAIDuALMud-wBsACAdICJDIxMDgzNThiLTA5MmUtNDM1ZS1hZjk0LWE2ZGI5MTcxMzhkNNgCBeACAQ&sid=df23a38e0f9f6fd596a1b9c15b92daee&all_sr_blocks=55062823_0_2_1_0;checkin=2024-04-12;checkout=2024-04-13;dest_id=-3709910;dest_type=city;dist=0;group_adults=2;group_children=0;hapos=9;highlighted_blocks=55062823_0_2_1_0;hpos=9;matching_block_id=55062823_0_2_1_0;no_rooms=1;req_adults=2;req_children=0;room1=A%2CA;sb_price_type=total;sr_order=popularity;sr_pri_blocks=55062823_0_2_1_0__160200294;srepoch=1712841056;srpvid=fe435caef2b80098;type=total;ucfs=1&#hotelTmpl'
     
     GetData(url)

@@ -85,7 +85,7 @@ def getdata(tenks, url):
     return data
 
 
-tomorrow = datetime.today() + timedelta(2)
+tomorrow = datetime.today() + timedelta(3)
 checkin = tomorrow.strftime('%Y-%m-%d')
 
 date_next = tomorrow + timedelta(1)
@@ -99,7 +99,7 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KH
             'Accept-Language': 'en-US, en;q=0.5'}
 webpage = requests.get(url, headers=HEADERS) 
 soup = BeautifulSoup(webpage.text,'lxml')
-
+print(url)
 
 
 
@@ -114,7 +114,7 @@ for div in table:
         listlink.append([name.text,link['href']])
 
 
-workbook = xlsxwriter.Workbook('output.xlsx')    
+workbook = xlsxwriter.Workbook(f'output_{checkin}_{checkout}.xlsx')    
 
 worksheet = workbook.add_worksheet(checkin + '--'+ checkout )
 worksheet.write(0, 0, 'Ten KS') 
